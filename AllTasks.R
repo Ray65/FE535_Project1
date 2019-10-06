@@ -65,7 +65,7 @@ p2 <- Reduce(merge,p_list2)
 
 class(p2)
 x <- p2$SPY.Adjusted
-RS <- na.omit(log(x/lag(x)))
+RS <- na.omit(log(x/log(x)))
 
 R2 <- merge(R,RS,all=F)
 
@@ -102,6 +102,124 @@ apply(ir, 1, mean)
 #plot
 plot(m,betas)
 
+# 2 Back-Testing
+#2.1 Task 1
+
+# IN 2017 and 2018 Date Range:
+IN.Start <- as.Date("2017-01-03") # first day of data in 2017
+IN.End <- as.Date("2018-12-31") # last day of data in 2018
+# OUT 2019 Back-Testing Date Range: 
+OUT.Start <- as.Date("2019-01-02") # first day of data in 2019
+OUT.End <- as.Date("2019-08-31") # last day of data in 2019
+  
+#2.2
+# IN sample to compute the portfolio weights
+
+# IN 2017 and 2018 Date Range:
+IN.Start <- as.Date("2017-01-03") # first day of data in 2017
+IN.End <- as.Date("2018-12-31") # last day of data in 2018
+
+# Getting IN Data
+tics <- c("AAPL", "AMZN", "JNJ", "BAC", "ORCL", "XOM", "GOOG", "WMT", "PFE", "JPM", "T", "CVX")
+SPY <- get(getSymbols("SPY", src= "yahoo", from = IN.Start, to = IN.End))
+p_IN_list <- list()
+for(s in tics){
+  cat(s,"\n")
+  p_IN_s <- get(getSymbols(s, src="yahoo", from = IN.Start, to = IN.End))
+  p_IN_list <- c(p_IN_list, list(p_IN_s[,6]))
+}
+p_IN <- Reduce(merge,p_IN_list)
+
+# Use the OUT sample to compute the return of each portfolio
+# OUT 2019 Back-Testing Date Range: 
+OUT.Start <- as.Date("2019-01-02") # first day of data in 2019
+OUT.End <- as.Date("2019-08-31") # last day of data in 2019
+
+# Getting OUT Data
+tics <- c("AAPL", "AMZN", "JNJ", "BAC", "ORCL", "XOM", "GOOG", "WMT", "PFE", "JPM", "T", "CVX")
+SPY <- get(getSymbols("SPY", src= "yahoo", from = OUT.Start, to = OUT.End))
+p_OUT_list <- list()
+for(s in tics){
+  cat(s,"\n")
+  p_OUT_s <- get(getSymbols(s, src="yahoo", from = OUT.Start, to = OUT.End))
+  p_OUT_list <- c(p_OUT_list, list(p_OUT_s[,6]))
+}
+p_OUT <- Reduce(merge,p_OUT_list)
+
+#2.2
+# IN sample to compute the portfolio weights
+NN <- 12
+R_IN <- log(p_IN/log(p_IN))
+R_IN <- na.omit(R_IN)
+head(R_IN)
+#Portfolio 1
+# average of adj.column
+m_IN <- mean(R_IN)
+m_IN <- 252*apply(R_IN,2,mean)
+
+#volatility
+vol_IN <- sqrt(252)*apply(R_IN,2,sd)
+vol_IN
+SR_IN <- m_IN/vol_IN
+SR_IN
+
+
+SUM_INV_VOL_IN <-  sum(1/vol_IN)
+#Portfolio 1
+w1 <- (1/vol_IN)/(SUM_INV_VOL_IN)
+# AAPL.Adjusted AMZN.Adjusted  JNJ.Adjusted  BAC.Adjusted ORCL.Adjusted  XOM.Adjusted GOOG.Adjusted 
+# 0.04559818    0.02393229    0.10548685    0.06899140    0.11329813    0.18381731    0.05761265 
+# WMT.Adjusted  PFE.Adjusted  JPM.Adjusted    T.Adjusted  CVX.Adjusted 
+# 0.05750270    0.07106038    0.06271684    0.11298948    0.09699378 
+#Portfolio 2
+SUM_SR_IN <-  sum(SR_IN)
+w2 <- SR_IN/SUM_SR_IN
+# AAPL.Adjusted AMZN.Adjusted  JNJ.Adjusted  BAC.Adjusted ORCL.Adjusted  XOM.Adjusted GOOG.Adjusted 
+# 0.04559818    0.02393229    0.10548685    0.06899140    0.11329813    0.18381731    0.05761265 
+# WMT.Adjusted  PFE.Adjusted  JPM.Adjusted    T.Adjusted  CVX.Adjusted 
+# 0.05750270    0.07106038    0.06271684    0.11298948    0.09699378 
+#Portfolio 3
+w3 <-  w2
+w3[] <- 1/NN
+# APL.Adjusted AMZN.Adjusted  JNJ.Adjusted  BAC.Adjusted ORCL.Adjusted  XOM.Adjusted GOOG.Adjusted 
+# 0.08333333    0.08333333    0.08333333    0.08333333    0.08333333    0.08333333    0.08333333 
+# WMT.Adjusted  PFE.Adjusted  JPM.Adjusted    T.Adjusted  CVX.Adjusted 
+#  0.08333333    0.08333333    0.08333333    0.08333333    0.08333333 
+
+# 12 × 3 table report the weight (in percentage) allocated to each asset. 
+# Use the OUT sample to compute the return of each portfolio
+R_OUT <- log(p_OUT/log(p_OUT))
+R_OUT <- na.omit(R_OUT)
+head(R_OUT)
+tail(R_OUT)
+
+#Portfolio 1
+R_OUT_P1 <-  R_OUT %*% w1 # returns on portfolio 1
+R_OUT_P1 <- apply(R_OUT_P1,2,sum) # column sum
+R_OUT_P1
+# [1] 504.85
+#Portfolio 2
+R_OUT_P2 <-  R_OUT %*% w2 # returns on portfolio 2
+R_OUT_P2 <- apply(R_OUT_P2,2,sum)
+R_OUT_P2
+# 537.646
+#Portfolio 3
+R_OUT_P3 <-  R_OUT %*% w3 # returns on portfolio 3
+R_OUT_P3 <- apply(R_OUT_P3,2,sum)
+R_OUT_P3
+# 546.7243
+
+#2.3
+
+# Provide a plot showing the cumulative return of each portfolio with respect to the SPY
+
+# Provide a summary table showing the SR, the beta, and the Jensen’s alpha for each portfolio
+
+# Discuss the absolute/relative performance of each. Which portfolio would you pick and why? What
+# do these result say about portfolio selection compared to a passive fund as the SPY
+
+
+
 #3.1
 f_sim <- function(n) {
   i <- 0
@@ -127,6 +245,7 @@ f_sim <- function(n) {
 #sim_list <- lapply(1:1000, f_sim)
 #head(sim_list) 
 p <- f_sim(1)  #'p' represents the probability of difference between min & max of a game being less than 3 measured for 1000 games
+
 
 
 #3.1 version 2 
@@ -171,9 +290,18 @@ mean(tossList)  #Answer
 
 #3.3
 
+#4 Value at Risk and Stress Testing
+# 4.1 Task 1
 
+# 4.1.1
 
+# 4.1.2
 
+# 4.1.3
+
+# 4.1.4
+
+# 4.2 Task 2
 
 
 

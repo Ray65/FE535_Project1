@@ -450,9 +450,16 @@ for (n in N) {
 }
 hist(F_t3_ALL)
 
-
 # 4.1.3
 # What’s the expected value of each portfolio one year from now?
+E_P1 <- mean(F_t1_ALL[252, ])
+# 115.202
+
+E_P2 <- mean(F_t2_ALL[252, ])
+# 113.088 
+
+E_P3 <- mean(F_t3_ALL[252, ])
+# 117.3901
 
 # 4.1.4
 # With 95% level of confidence, what is the Value-at-Risk, i.e. V aR(0.05), for each portfolio?

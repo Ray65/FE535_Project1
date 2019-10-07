@@ -264,8 +264,12 @@ SR1 <- m1/vol1
 R_1_MERGED <- merge(R_OUT_SPY, R_OUT_P1)
 msr <- table.CAPM(R_1_MERGED[,2],R_1_MERGED[,1])
 msr
-alphas <- msr[1,]
-betas <- msr[2,]
+alpha1 <- msr[1,]
+alpha1
+# -3e-04
+beta1 <- msr[2,]
+beta1
+# 0.9654
 
 #Portfolio 2
 m2 <- N_POINTS * apply(R_OUT_P2,2,mean)
@@ -276,8 +280,12 @@ SR2 <- m2/vol2
 R_2_MERGED <- merge(R_OUT_SPY, R_OUT_P2)
 msr <- table.CAPM(R_2_MERGED[,2],R_2_MERGED[,1])
 msr
-alphas <- msr[1,]
-betas <- msr[2,]
+alpha2 <- msr[1,]
+alpha2
+# -6e-04
+beta2 <- msr[2,]
+beta2
+# 1.1372
 
 #Portfolio 3
 m3 <- N_POINTS * apply(R_OUT_P3,2,mean)
@@ -288,8 +296,13 @@ SR3 <- m3/vol3
 R_3_MERGED <- merge(R_OUT_SPY, R_OUT_P3)
 msr <- table.CAPM(R_3_MERGED[,2],R_3_MERGED[,1])
 msr
-alphas <- msr[1,]
-betas <- msr[2,]
+alpha3 <- msr[1,]
+alpha3
+# -3e-04
+beta3 <- msr[2,]
+beta3
+# 0.9654
+
 
 # Discuss the absolute/relative performance of each. Which portfolio would you pick and why? What
 # do these result say about portfolio selection compared to a passive fund as the SPY

@@ -463,9 +463,21 @@ E_P3 <- mean(F_t3_ALL[252, ])
 
 # 4.1.4
 # With 95% level of confidence, what is the Value-at-Risk, i.e. V aR(0.05), for each portfolio?
+P1 <- F_t1_ALL[252, ] 
+P1_SORTED = sort(P1)
+P1_VaR = P1_SORTED[50]
+P1_VaR 
+#  113.6219, so VaR is 0
 
+P2 <- F_t2_ALL[252, ] 
+P2_SORTED = sort(P2)
+P2_VaR = P2_SORTED[50]
+# 110.9185, so VaR is 0
 
-
+P3 <- F_t3_ALL[252, ] 
+P3_SORTED = sort(P3)
+P3_VaR = P3_SORTED[50]
+# 115.6425, so VaR is 0
 
 # 4.2 Task 2
 # To do so, you need to estimate the market beta beta p for each portfolio and the market 
@@ -478,14 +490,12 @@ E_P3 <- mean(F_t3_ALL[252, ])
 # 4.2 Task 2
 # To do so, you need to estimate the market beta beta p for each portfolio and the market 
 # volatility sigma p during the OUT period.
-# Portfolio 1
-# R_1_MERGED 
 
+# Portfolio 1
 F_t1_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
 a = 0.10 # increase volatility by 10 percent
 vol1 <-  vol1 + a
 for (n in N) {
-  # Portfolio 1
   t <- seq (1, N_DAYS)
   Zt <- rnorm(t, mean = 0, sd = 1)  
   F_01 <-  100
@@ -503,7 +513,6 @@ P1_VaR
 F_t2_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
 vol2 <- vol2 + 0.10
 for (n in N) {
-  # Portfolio 1
   t <- seq (1, N_DAYS)
   Zt <- rnorm(t, mean = 0, sd = 1)  
   F_02 <-  100
@@ -521,7 +530,6 @@ P2_VaR
 F_t3_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
 vol3 <- vol3 + 0.10
 for (n in N) {
-  # Portfolio 1
   t <- seq (1, N_DAYS)
   Zt <- rnorm(t, mean = 0, sd = 1)  
   F_03 <-  100

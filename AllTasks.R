@@ -163,7 +163,6 @@ vol_IN
 SR_IN <- m_IN/vol_IN
 SR_IN
 
-
 SUM_INV_VOL_IN <-  sum(1/vol_IN)
 #Portfolio 1
 w1 <- (1/vol_IN)/(SUM_INV_VOL_IN)
@@ -188,30 +187,32 @@ w3[] <- 1/NN
 
 # 12 × 3 table report the weight (in percentage) allocated to each asset. 
 # Use the OUT sample to compute the return of each portfolio
-R_OUT <- log(p_OUT/log(p_OUT))
+R_OUT <- log(p_OUT/lag(p_OUT))
 R_OUT <- na.omit(R_OUT)
 head(R_OUT)
 tail(R_OUT)
 
 #Portfolio 1
 R_OUT_P1 <-  R_OUT %*% w1 # returns on portfolio 1
-R_OUT_P1 <- apply(R_OUT_P1,2,sum) # column sum
-R_OUT_P1
-# [1] 504.85
+R_OUT_P1_TOTAL <- apply(R_OUT_P1,2,sum) # column sum
+R_OUT_P1_TOTAL
+# [1] 0.1000919
 #Portfolio 2
 R_OUT_P2 <-  R_OUT %*% w2 # returns on portfolio 2
-R_OUT_P2 <- apply(R_OUT_P2,2,sum)
-R_OUT_P2
-# 537.646
+R_OUT_P2_TOTAL <- apply(R_OUT_P2,2,sum)
+R_OUT_P2_TOTAL
+# [1] 0.09281034
 #Portfolio 3
 R_OUT_P3 <-  R_OUT %*% w3 # returns on portfolio 3
-R_OUT_P3 <- apply(R_OUT_P3,2,sum)
-R_OUT_P3
-# 546.7243
+R_OUT_P3_TOTAL <- apply(R_OUT_P3,2,sum)
+R_OUT_P3_TOTAL
+# [1] 0.1128321
 
 #2.3
 
 # Provide a plot showing the cumulative return of each portfolio with respect to the SPY
+# get SPY data
+
 
 # get SPY OUT data
 tics <- c("SPY")
@@ -226,11 +227,11 @@ length(p_SPY_list)
 p_SPY <- Reduce(merge,p_SPY_list)
 
 # Calculate Return
-R_OUT_SPY <- log(p_SPY/log(p_SPY))
+R_OUT_SPY <- log(p_SPY/lag(p_SPY))
 R_OUT_SPY <- na.omit(R_OUT_SPY)
 head(R_OUT_SPY)
- 
-N_POINTS <- 168 # number of days in the OUT sample
+
+N_POINTS <- 167
 x <-  seq (1, N_POINTS)
 #Portfolio 1 plot
 #plot(x,R_OUT_P1,type="p",main="Portfolio 1", xlab="Days", ylab="Cumulative Return")
@@ -251,14 +252,14 @@ y31 <-cumsum(R_OUT_SPY$SPY.Adjusted)
 y32 <-cumsum(R_OUT_P3)
 plot(x,y31, type="l",main="Portfolio 3", xlab="Days",ylab="Cumulative Return")
 lines(x,y32,col="red")
-
 # Provide a summary table showing the SR, the beta, and the Jensen’s alpha for each portfolio
+
 
 #Portfolio 1
 m1 <- N_POINTS * apply(R_OUT_P1,2,mean)
 vol1 <- sqrt(N_POINTS)*apply(R_OUT_P1,2,sd)
 SR1 <- m1/vol1
-# 1395.089
+# [1] 0.9039753
 # run CAPM
 R_1_MERGED <- merge(R_OUT_SPY, R_OUT_P1)
 msr <- table.CAPM(R_1_MERGED[,2],R_1_MERGED[,1])
@@ -270,8 +271,7 @@ betas <- msr[2,]
 m2 <- N_POINTS * apply(R_OUT_P2,2,mean)
 vol2 <- sqrt(N_POINTS)*apply(R_OUT_P2,2,sd)
 SR2 <- m2/vol2
-# 1434.924
-
+# [1] 0.6223605
 # run CAPM
 R_2_MERGED <- merge(R_OUT_SPY, R_OUT_P2)
 msr <- table.CAPM(R_2_MERGED[,2],R_2_MERGED[,1])
@@ -283,7 +283,7 @@ betas <- msr[2,]
 m3 <- N_POINTS * apply(R_OUT_P3,2,mean)
 vol3 <- sqrt(N_POINTS)*apply(R_OUT_P3,2,sd)
 SR3 <- m3/vol3
-# 1348.588
+# [1] 0.9893792
 # run CAPM
 R_3_MERGED <- merge(R_OUT_SPY, R_OUT_P3)
 msr <- table.CAPM(R_3_MERGED[,2],R_3_MERGED[,1])
@@ -291,10 +291,8 @@ msr
 alphas <- msr[1,]
 betas <- msr[2,]
 
-
 # Discuss the absolute/relative performance of each. Which portfolio would you pick and why? What
 # do these result say about portfolio selection compared to a passive fund as the SPY
-
 
 
 #3.1

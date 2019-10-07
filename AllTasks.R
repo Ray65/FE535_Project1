@@ -407,30 +407,49 @@ vol3 <- sqrt(252)*apply(R_OUT_P3,2,sd)
 # 0.1400915
 vol3 <- sqrt(1)*apply(R_OUT_P3,2,sd) # daily
 
+
 # 4.1.2
 # simulate N = 1000 paths. Given the simulated paths, provide a distribution plot, e.g. 
 # boxplot or histogram, for each portfolio. Provide a couple of insights
-N <-  1000
+N_SIM <- 1000
+N <-  seq(1,N_SIM)
 N_DAYS <- 252
 
-# Portfolio 1
-t <- seq (1, N_DAYS)
-Zt <- rnorm(t, mean = 0, sd = 1)  
-F_01 <-  100
-F_t1 <-  F_01 * exp( (m1 - vol1^2 / 2) * t + vol1 * Zt)
-hist(F_t1)
+F_t1_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
+for (n in N) {
+  # Portfolio 1
+  t <- seq (1, N_DAYS)
+  Zt <- rnorm(t, mean = 0, sd = 1)  
+  F_01 <-  100
+  F_t1 <- F_01 * exp( (m1 - vol1^2 / 2) * t + vol1 * Zt)
+  F_t1_ALL[, n] <-  F_t1
+}
+hist(F_t1_ALL)
 
 # Portfolio 2
-Zt <- rnorm(t, mean = 0, sd = 1)  
-F_02 <-  100
-F_t2 <-  F_02 * exp( (m2 - vol2^2 / 2) * t + vol2 * Zt)
-hist(F_t2)
+F_t2_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
+for (n in N) {
+  # Portfolio 1
+  t <- seq (1, N_DAYS)
+  Zt <- rnorm(t, mean = 0, sd = 1)  
+  F_02 <-  100
+  F_t2 <- F_02 * exp( (m2 - vol2^2 / 2) * t + vol2 * Zt)
+  F_t2_ALL[, n] <-  F_t2
+}
+hist(F_t2_ALL)
 
 # Portfolio 3
-Zt <- rnorm(t, mean = 0, sd = 1)  
-F_03 <-  100
-F_t3 <-  F_03 * exp( (m3 - vol3^2 / 2) * t + vol3 * Zt)
-hist(F_t3)
+F_t3_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
+for (n in N) {
+  # Portfolio 1
+  t <- seq (1, N_DAYS)
+  Zt <- rnorm(t, mean = 0, sd = 1)  
+  F_03 <-  100
+  F_t3 <- F_02 * exp( (m3 - vol3^2 / 2) * t + vol3 * Zt)
+  F_t3_ALL[, n] <-  F_t3
+}
+hist(F_t3_ALL)
+
 
 # 4.1.3
 # What’s the expected value of each portfolio one year from now?

@@ -380,16 +380,50 @@ mean(tossList)  #Answer
 
 #4 Value at Risk and Stress Testing
 # 4.1 Task 1
-
 # 4.1.1
+# compute mean p and sigma p for p = 1, 2, 3 using the daily returns in the OUT period.
+
+# Portfolio 1
+m1 <- 252*apply(R_OUT_P1,2,mean)
+# 0.1510369
+vol1 <- sqrt(252)*apply(R_OUT_P1,2,sd)
+# 0.1360142
+
+# Portfolio 2
+m2 <- N_POINTS*apply(R_OUT_P2,2,mean)
+# 0.09281034
+vol2 <- sqrt(252)*apply(R_OUT_P2,2,sd)
+# 0.1831877
+
+# Portfolio 3
+m3 <- 252*apply(R_OUT_P3,2,mean)
+# 0.1702616
+vol3 <- sqrt(252)*apply(R_OUT_P3,2,sd)
+# 0.1400915
 
 # 4.1.2
+# simulate N = 1000 paths. Given the simulated paths, provide a distribution plot, e.g. 
+# boxplot or histogram, for each portfolio. Provide a couple of insights
+N = 1000
 
 # 4.1.3
+# What’s the expected value of each portfolio one year from now?
 
 # 4.1.4
+# With 95% level of confidence, what is the Value-at-Risk, i.e. V aR(0.05), for each portfolio?
 
 # 4.2 Task 2
+# To do so, you need to estimate the market beta beta p for each portfolio and the market 
+# volatility sigma p during the OUT period.
+
+# After doing so, consider the scenario
+# in which the market volatility increases by a = 10% and generate 1000 paths for each portfolio.
+# Given these simulations, compute the V aR(0.05) for each portfolio and summarize the results in a
+# single table
+
+
+
+
 
 
 

@@ -475,8 +475,64 @@ E_P3 <- mean(F_t3_ALL[252, ])
 # in which the market volatility increases by a = 10% and generate 1000 paths for each portfolio.
 # Given these simulations, compute the V aR(0.05) for each portfolio and summarize the results in a
 # single table
+# 4.2 Task 2
+# To do so, you need to estimate the market beta beta p for each portfolio and the market 
+# volatility sigma p during the OUT period.
+# Portfolio 1
+# R_1_MERGED 
 
+F_t1_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
+a = 0.10 # increase volatility by 10 percent
+vol1 <-  vol1 + a
+for (n in N) {
+  # Portfolio 1
+  t <- seq (1, N_DAYS)
+  Zt <- rnorm(t, mean = 0, sd = 1)  
+  F_01 <-  100
+  F_t1 <- F_01 * exp( (m1 - vol1^2 / 2) * t + vol1 * Zt)
+  F_t1_ALL[, n] <-  F_t1
+}
+P1 <- F_t1_ALL[252, ] 
+P1_SORTED = sort(P1)
+P1_VaR = P1_SORTED[50]
+P1_VaR 
+# 21.50, so VaR is 78.49
 
+# Portfolio 2
+
+F_t2_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
+vol2 <- vol2 + 0.10
+for (n in N) {
+  # Portfolio 1
+  t <- seq (1, N_DAYS)
+  Zt <- rnorm(t, mean = 0, sd = 1)  
+  F_02 <-  100
+  F_t2 <- F_02 * exp( (m2 - vol2^2 / 2) * t + vol2 * Zt)
+  F_t2_ALL[, n] <-  F_t2
+}
+
+P2 <- F_t2_ALL[252, ] 
+P2_SORTED = sort(P2)
+P2_VaR = P2_SORTED[50]
+P2_VaR
+# 19.94983, so VaR is 80.05
+
+# Portfolio 3
+F_t3_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
+vol3 <- vol3 + 0.10
+for (n in N) {
+  # Portfolio 1
+  t <- seq (1, N_DAYS)
+  Zt <- rnorm(t, mean = 0, sd = 1)  
+  F_03 <-  100
+  F_t3 <- F_02 * exp( (m3 - vol3^2 / 2) * t + vol3 * Zt)
+  F_t3_ALL[, n] <-  F_t3
+}
+P3 <- F_t3_ALL[252, ] 
+P3_SORTED = sort(P3)
+P3_VaR = P3_SORTED[50]
+P3_VaR
+# 22.19547, so VaR is 77.81
 
 
 

@@ -11,7 +11,7 @@ for(s in tics){
   cat(s,"\n")
   p_s <- get(getSymbols(s, src="yahoo", from= as.Date("2004-08-01"), to= as.Date("2019-08-31")))
   p_list <- c(p_list, list(p_s[,6]))
-}
+} 
 length(p_list)
 
 # Getting the adj.column
@@ -463,6 +463,9 @@ E_P3 <- mean(F_t3_ALL[252, ])
 
 # 4.1.4
 # With 95% level of confidence, what is the Value-at-Risk, i.e. V aR(0.05), for each portfolio?
+
+
+
 
 # 4.2 Task 2
 # To do so, you need to estimate the market beta beta p for each portfolio and the market 

@@ -258,19 +258,38 @@ lines(x,y32,col="red")
 m1 <- N_POINTS * apply(R_OUT_P1,2,mean)
 vol1 <- sqrt(N_POINTS)*apply(R_OUT_P1,2,sd)
 SR1 <- m1/vol1
+# 1395.089
 # run CAPM
+R_1_MERGED <- merge(R_OUT_SPY, R_OUT_P1)
+msr <- table.CAPM(R_1_MERGED[,2],R_1_MERGED[,1])
+msr
+alphas <- msr[1,]
+betas <- msr[2,]
 
 #Portfolio 2
 m2 <- N_POINTS * apply(R_OUT_P2,2,mean)
 vol2 <- sqrt(N_POINTS)*apply(R_OUT_P2,2,sd)
 SR2 <- m2/vol2
+# 1434.924
+
 # run CAPM
+R_2_MERGED <- merge(R_OUT_SPY, R_OUT_P2)
+msr <- table.CAPM(R_2_MERGED[,2],R_2_MERGED[,1])
+msr
+alphas <- msr[1,]
+betas <- msr[2,]
 
 #Portfolio 3
 m3 <- N_POINTS * apply(R_OUT_P3,2,mean)
 vol3 <- sqrt(N_POINTS)*apply(R_OUT_P3,2,sd)
 SR3 <- m3/vol3
+# 1348.588
 # run CAPM
+R_3_MERGED <- merge(R_OUT_SPY, R_OUT_P3)
+msr <- table.CAPM(R_3_MERGED[,2],R_3_MERGED[,1])
+msr
+alphas <- msr[1,]
+betas <- msr[2,]
 
 
 # Discuss the absolute/relative performance of each. Which portfolio would you pick and why? What

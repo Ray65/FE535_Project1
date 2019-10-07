@@ -384,27 +384,53 @@ mean(tossList)  #Answer
 # compute mean p and sigma p for p = 1, 2, 3 using the daily returns in the OUT period.
 
 # Portfolio 1
-m1 <- 252*apply(R_OUT_P1,2,mean)
+#m1 <- 252*apply(R_OUT_P1,2,mean)
 # 0.1510369
-vol1 <- sqrt(252)*apply(R_OUT_P1,2,sd)
+m1 <- 1*apply(R_OUT_P1,2,mean) # daily
+#vol1 <- sqrt(252)*apply(R_OUT_P1,2,sd)
 # 0.1360142
+vol1 <- sqrt(1)*apply(R_OUT_P1,2,sd) # daily
 
 # Portfolio 2
-m2 <- N_POINTS*apply(R_OUT_P2,2,mean)
+m2 <- 252*apply(R_OUT_P2,2,mean)
 # 0.09281034
+m2 <- 1*apply(R_OUT_P2,2,mean) # daily
 vol2 <- sqrt(252)*apply(R_OUT_P2,2,sd)
 # 0.1831877
+vol2 <- sqrt(1)*apply(R_OUT_P2,2,sd) # daily
 
 # Portfolio 3
 m3 <- 252*apply(R_OUT_P3,2,mean)
 # 0.1702616
+m3 <- 1*apply(R_OUT_P3,2,mean) # daily 
 vol3 <- sqrt(252)*apply(R_OUT_P3,2,sd)
 # 0.1400915
+vol3 <- sqrt(1)*apply(R_OUT_P3,2,sd) # daily
 
 # 4.1.2
 # simulate N = 1000 paths. Given the simulated paths, provide a distribution plot, e.g. 
 # boxplot or histogram, for each portfolio. Provide a couple of insights
-N = 1000
+N <-  1000
+N_DAYS <- 252
+
+# Portfolio 1
+t <- seq (1, N_DAYS)
+Zt <- rnorm(t, mean = 0, sd = 1)  
+F_01 <-  100
+F_t1 <-  F_01 * exp( (m1 - vol1^2 / 2) * t + vol1 * Zt)
+hist(F_t1)
+
+# Portfolio 2
+Zt <- rnorm(t, mean = 0, sd = 1)  
+F_02 <-  100
+F_t2 <-  F_02 * exp( (m2 - vol2^2 / 2) * t + vol2 * Zt)
+hist(F_t2)
+
+# Portfolio 3
+Zt <- rnorm(t, mean = 0, sd = 1)  
+F_03 <-  100
+F_t3 <-  F_03 * exp( (m3 - vol3^2 / 2) * t + vol3 * Zt)
+hist(F_t3)
 
 # 4.1.3
 # What’s the expected value of each portfolio one year from now?
@@ -420,6 +446,10 @@ N = 1000
 # in which the market volatility increases by a = 10% and generate 1000 paths for each portfolio.
 # Given these simulations, compute the V aR(0.05) for each portfolio and summarize the results in a
 # single table
+
+
+
+
 
 
 

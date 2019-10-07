@@ -213,7 +213,65 @@ R_OUT_P3
 
 # Provide a plot showing the cumulative return of each portfolio with respect to the SPY
 
+# get SPY OUT data
+tics <- c("SPY")
+SPY <- get(getSymbols("SPY", src= "yahoo", from= as.Date("2019-01-02"), to= as.Date("2019-08-31")))
+p_SPY_list <- list()
+for(s in tics){
+  cat(s,"\n")
+  p_SPY_s <- get(getSymbols(s, src="yahoo", from= as.Date("2019-01-02"), to= as.Date("2019-08-31")))
+  p_SPY_list <- c(p_SPY_list, list(p_SPY_s[,6]))
+}
+length(p_SPY_list)
+p_SPY <- Reduce(merge,p_SPY_list)
+
+# Calculate Return
+R_OUT_SPY <- log(p_SPY/log(p_SPY))
+R_OUT_SPY <- na.omit(R_OUT_SPY)
+head(R_OUT_SPY)
+ 
+N_POINTS <- 168 # number of days in the OUT sample
+x <-  seq (1, N_POINTS)
+#Portfolio 1 plot
+#plot(x,R_OUT_P1,type="p",main="Portfolio 1", xlab="Days", ylab="Cumulative Return")
+y11 <-cumsum(R_OUT_SPY$SPY.Adjusted)
+y12 <-cumsum(R_OUT_P1)
+plot(x,y11 ,type="p",main="Portfolio 1", xlab="Days", ylab="Cumulative Return")
+#points(x,R_OUT_SPY$SPY.Adjusted, col="red")
+points(x,y12, col="red")
+
+#Portfolio 2 plot
+y21 <-cumsum(R_OUT_SPY$SPY.Adjusted)
+y22 <-cumsum(R_OUT_P2)
+plot(x,y21,type="l",main="Portfolio 2", xlab="Days",ylab="Cumulative Return")
+lines(x,y22,col="red")
+
+#Portfolio 3 plot
+y31 <-cumsum(R_OUT_SPY$SPY.Adjusted)
+y32 <-cumsum(R_OUT_P3)
+plot(x,y31, type="l",main="Portfolio 3", xlab="Days",ylab="Cumulative Return")
+lines(x,y32,col="red")
+
 # Provide a summary table showing the SR, the beta, and the Jensen’s alpha for each portfolio
+
+#Portfolio 1
+m1 <- N_POINTS * apply(R_OUT_P1,2,mean)
+vol1 <- sqrt(N_POINTS)*apply(R_OUT_P1,2,sd)
+SR1 <- m1/vol1
+# run CAPM
+
+#Portfolio 2
+m2 <- N_POINTS * apply(R_OUT_P2,2,mean)
+vol2 <- sqrt(N_POINTS)*apply(R_OUT_P2,2,sd)
+SR2 <- m2/vol2
+# run CAPM
+
+#Portfolio 3
+m3 <- N_POINTS * apply(R_OUT_P3,2,mean)
+vol3 <- sqrt(N_POINTS)*apply(R_OUT_P3,2,sd)
+SR3 <- m3/vol3
+# run CAPM
+
 
 # Discuss the absolute/relative performance of each. Which portfolio would you pick and why? What
 # do these result say about portfolio selection compared to a passive fund as the SPY

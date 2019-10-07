@@ -492,6 +492,39 @@ P3_VaR = P3_SORTED[50]
 # volatility sigma p during the OUT period.
 
 # Portfolio 1
+# R_1_MERGED 
+msr <- table.CAPM(R_1_MERGED[,2],R_1_MERGED[,1])
+msr
+alpha1 <- msr[1,]
+alpha1
+# -3e-04
+beta1 <- msr[2,]
+beta1
+# 0.9654
+
+# Portfolio 2
+# R_2_MERGED 
+msr <- table.CAPM(R_2_MERGED[,2],R_2_MERGED[,1])
+msr
+alpha2 <- msr[1,]
+alpha2
+# -6e-04
+beta2 <- msr[2,]
+beta2
+# 1.1372
+
+# Portfolio 3
+# R_3_MERGED 
+msr <- table.CAPM(R_3_MERGED[,2],R_3_MERGED[,1])
+msr
+alpha3 <- msr[1,]
+alpha3
+# -3e-04
+beta3 <- msr[2,]
+beta3
+# 0.9654
+
+# Portfolio 1
 F_t1_ALL <-  matrix(, nrow = N_DAYS, ncol = N_SIM)
 a = 0.10 # increase volatility by 10 percent
 vol1 <-  vol1 + a
